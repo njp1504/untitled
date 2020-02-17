@@ -1,0 +1,40 @@
+// 플러그인 의존성 관리를 위한 설정
+buildscript {
+    ext {   // build.gradle에서 사용하는 전역변수를 설정하겠다는 의미
+        springBootVersion = '2.1.7.RELEASE'     // 전역변수로 사용됨
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"     // spring-boot-gradle-plugin라는 스프링 부트 그레이들 플러그인의 2.1.7.RELEASE를 의존성으로 받겠다는 의미이다.
+    }
+}
+
+// 앞서 선언한 플러그인 의존성들을 적용할 것인지를 결정하는 코드
+// 자바와 스프링 부트를 사용하기 위해서는 필수 플로그인들이니 항상 추가해줘야 한다.
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.njp.study'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+// 각종 의존성(라이브러리)들을 어떤 원격 저장소에서 받을지 결정
+repositories {
+    mavenCentral()
+}
+
+// 프로젝트 개발에 필요한 의존성들을 선언하는 곳
+// 특정버전을 명시하면 안된다.
+// 버전을 명시하지 않아야만 맨 위에 작성한 'org.sprinframework.boot:spring-boot-gradle-plugin:${springBootVersion}'의 버전을 따라가게 된다.
+// 이렇게 관리할 경우, 각 라이브러리들의 버전 관리가 한 곳에 집중되고, 버전 충돌 문제도 해결되어 편하게 개발을 진행할 수 있다.
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
