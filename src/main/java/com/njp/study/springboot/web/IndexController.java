@@ -1,11 +1,13 @@
 package com.njp.study.springboot.web;
 
 import com.njp.study.springboot.service.posts.PostsService;
+import com.njp.study.springboot.web.dto.PostsResponseDto;
 import com.njp.study.springboot.web.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 // index.mustache url 연동
 // 페이지에 관련된 컨트롤러는 모두 IndexController를 사용한다.
 
@@ -37,4 +39,11 @@ public class IndexController {
         return "posts-save";
     }
 
+    @GetMapping("/posts/update/{id}")
+    public String postsUpdate(@PathVariable Long id, Model model) {
+        PostsResponseDto dto = postsService.findById(id);
+        model.addAttribute("post", dto);
+
+        return "posts-update";
+    }
 }
